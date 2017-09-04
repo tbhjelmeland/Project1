@@ -3,6 +3,8 @@
 #include <iomanip>      //manipulator function for in-/output streams
 #include <cmath>
 #include <string>
+#include <ctime>        //to time the program
+
 // use namespace for output and input
 using namespace std;
 
@@ -14,7 +16,8 @@ double exact(double x) {return 1.0-(1-exp(-10))*x-exp(-10*x);}
 
 // Begin main program
 int main(int argc, char *argv[]){
-  int exponent;
+    clock_t begin = clock();
+    int exponent;
     string filename;
     // We need two user input; first name for the output file and than n which defines the different matrix sizes
     if( argc <= 1 ){
@@ -54,22 +57,22 @@ int main(int argc, char *argv[]){
     // x[n]=1.0;
      for (int i = 1; i < n; i++){
          d[i] = (i+1.0)/( (double) i);
-         cout << "Diagonal element, tilde_d= " << d[i] << endl;
+         //cout << "Diagonal element, tilde_d= " << d[i] << endl;
      }
      for (int i = 0; i <= n; i++){
          x[i] = i*h;
          b[i] = hh*f(x[i]);
-         cout << "b= " << b[i] << endl;
-         cout << "x= " << *&x[i] << endl;
+         // cout << "b= " << b[i] << endl;
+         // cout << "x= " << *&x[i] << endl;
      }
      // Forward substitution
      for (int i = 2; i < n; i++){
          b[i] = b[i] + b[i-1]/d[i-1];
-         cout << "b_tilde = " << b[i] << endl;
+         // cout << "b_tilde = " << b[i] << endl;
      }
      // Backward substitution
      solution[n-1] = b[n-1]/d[n-1];
-     cout << "solution_n-1 = " << solution[n-1] << endl;
+     // cout << "solution_n-1 = " << solution[n-1] << endl;
      for (int i = n-2; i > 0; i--){
          solution[i] = (b[i]+solution[i+1])/d[i];
          cout << "Solution = " << solution[i] << endl;
@@ -87,5 +90,8 @@ int main(int argc, char *argv[]){
      ofile.close();
      delete [] x; delete [] d; delete [] b; delete [] solution;
    }
+   clock_t end = clock();
+   double elapsed_secs = double(end-begin)/ CLOCKS_PER_SEC;
+   cout << "Elapsed time during computations in seconds = " << elapsed_secs << endl;
    return 0;
 }
