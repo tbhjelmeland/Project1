@@ -16,7 +16,7 @@ double exact(double x) {return 1.0-(1-exp(-10))*x-exp(-10*x);}
 
 // Begin main program
 int main(int argc, char *argv[]){
-    clock_t begin = clock();
+
     int exponent;
     string filename;
     // We need two user input; first name for the output file and than n which defines the different matrix sizes
@@ -33,6 +33,7 @@ int main(int argc, char *argv[]){
     }
     // Loop over powers of 10
     for (int i = 1; i <= exponent; i++){
+
      int  n = (int) pow(10.0,i);
      // Declare new file name
      string fileout = filename;
@@ -55,6 +56,7 @@ int main(int argc, char *argv[]){
      //x[0]=0.0;
      //set value of x_n to 1
     // x[n]=1.0;
+     clock_t begin = clock();
      for (int i = 1; i < n; i++){
          d[i] = (i+1.0)/( (double) i);
          //cout << "Diagonal element, tilde_d= " << d[i] << endl;
@@ -75,13 +77,13 @@ int main(int argc, char *argv[]){
      // cout << "solution_n-1 = " << solution[n-1] << endl;
      for (int i = n-2; i > 0; i--){
          solution[i] = (b[i]+solution[i+1])/d[i];
-         cout << "Solution = " << solution[i] << endl;
+         // cout << "Solution = " << solution[i] << endl;
      }
      ofile.open(fileout);
      ofile << setiosflags(ios::showpoint | ios::uppercase);
-     ofile << "       x:             approx:          exact:       relative error" << endl;
+     ofile << "       x:             approx:          exact:       relative error:" << endl;
      for (int i = 1; i < n;i++) {
-      double RelativeError = fabs((exact(x[i])-solution[i])/exact(x[i]));
+        double RelativeError = fabs((exact(x[i])-solution[i])/exact(x[i]));
         ofile << setw(15) << setprecision(8) << x[i];
         ofile << setw(15) << setprecision(8) << solution[i];
         ofile << setw(15) << setprecision(8) << exact(x[i]);
@@ -89,9 +91,22 @@ int main(int argc, char *argv[]){
      }
      ofile.close();
      delete [] x; delete [] d; delete [] b; delete [] solution;
+     clock_t end = clock();
+     double elapsed_secs = double(end-begin)/ CLOCKS_PER_SEC;
+     cout << "Elapsed time during computations in seconds = " << elapsed_secs << endl;
+
+     //Calculate flops,
+     double FLO = double ((n-1)*2 + (n-2)*2 + (n-2)*3);
+     double FLOPS = double ((n-1)*2 + (n-2)*2 + (n-2)*3)/elapsed_secs;
+     cout << "Number of FLO = " << FLO << endl;
+     cout << "Number of FLOPS = " << FLOPS << endl;
+
+
+     //ofstream myfile;
+     //myfile.open(timefile);
+     //myfile << setw(15) << setprecision(8) << elapsed_secs << endl;
+     //myfile.close();
    }
-   clock_t end = clock();
-   double elapsed_secs = double(end-begin)/ CLOCKS_PER_SEC;
-   cout << "Elapsed time during computations in seconds = " << elapsed_secs << endl;
+
    return 0;
 }
