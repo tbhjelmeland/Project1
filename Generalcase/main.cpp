@@ -24,17 +24,20 @@ double exact(double x) {
 // Begin main program
 int main(int argc, char *argv[]){
     string filename;
-    // We read also the basic name for the output file and the highest power of 10^n we want
-    if( argc <= 1 ){
+    // Argument test
+    if( argc <= 4 ){
           cout << "Bad Usage: " << argv[0] <<
-              " read also file name on same line and max power 10^n" << endl;
+              "pass otput filename, max power 10^n, upper diagonal, diagonal, lower diagonal" << endl;
           exit(1);
     }
         else{
         filename = argv[1]; // first command line argument after name of program
-        //exponent = atoi(argv[2]);
+        exponent = atoi(argv[2]);
         //cout << "Highest exponent in 10^n, define quadratic matrix sizes: " << argv[2] << endl;
-        cout << "filename: " << argv[1] << endl;
+        //cout << "filename: " << argv[1] << endl;
+        int a = argv[3];
+        int d = argv[4];
+        int b = argv[5];
     }
     // Loop over powers of 10
     for (int i = 1; i <= exponent; i++){
@@ -47,19 +50,20 @@ int main(int argc, char *argv[]){
      fileout.append(argument);
      double h = 1.0/(n);
      double hh = h*h;
-     // Set up arrays for the simple case
-     //double *d = new double [n+1];
-     //double *b = new double [n+1];
+     // Set up arrays
+     double *a = new double [n];
+     double *d = new double [n+1];
+     double *b = new double [n];
      double *solution = new double [n+1];
      double *x = new double [n+1];
      // Quick setup of updated diagonal elements and value of
-     d[0] = d[n] = 2;
+     d[0] = d[n] = ;
      //cout << "Before we added dialog elements, only endpoints: " << *d << endl;
      solution[0] = solution[n] = 0.0;
-     for (int i = 1; i < n; i++) d[i] = (i+1.0)/( (double) i);
+     for (int i = 1; i < n; i++) d[i] = (i+1.0)/( (double) i); //ENDRE
      for (int i = 0; i <= n; i++){
          x[i] = i*h;
-         b[i] = hh*f(x[i]);
+         b[i] = hh*f(x[i]);  //ENDRE
      }
      // Forward substitution
      for (int i = 2; i < n; i++) b[i] = b[i] + b[i-1]/d[i-1];
