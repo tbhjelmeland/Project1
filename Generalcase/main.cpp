@@ -23,7 +23,11 @@ double exact(double x) {
 
 // Begin main program
 int main(int argc, char *argv[]){
+    int exponent;
     string filename;
+    int a;
+    int d;
+    int b;
     // Argument test
     if( argc <= 4 ){
           cout << "Bad Usage: " << argv[0] <<
@@ -35,7 +39,7 @@ int main(int argc, char *argv[]){
         exponent = atoi(argv[2]);
         //cout << "Highest exponent in 10^n, define quadratic matrix sizes: " << argv[2] << endl;
         //cout << "filename: " << argv[1] << endl;
-        int a = argv[3];
+        a = atoi(argv[3]);
         int d = argv[4];
         int b = argv[5];
     }
@@ -57,7 +61,7 @@ int main(int argc, char *argv[]){
      double *solution = new double [n+1];
      double *x = new double [n+1];
      // Quick setup of updated diagonal elements and value of
-     d[0] = d[n] = ;
+     d[0] = d[n] = d;
      //cout << "Before we added dialog elements, only endpoints: " << *d << endl;
      solution[0] = solution[n] = 0.0;
      for (int i = 1; i < n; i++) d[i] = (i+1.0)/( (double) i); //ENDRE
